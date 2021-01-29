@@ -8,7 +8,7 @@ public class CamFollow : MonoBehaviour
     #endregion
 
     #region Parameters
-    public Transform Target { get { return target; } }
+    public Transform Target => target;
     public CamFollowSettings CamFollowSettings => camFollowSettings;
     #endregion
 
@@ -16,32 +16,7 @@ public class CamFollow : MonoBehaviour
     CamFollowController followController;
     #endregion
 
-    void Awake() => Initialise();
-
-
-    void Initialise()
-    {
-        followController = new CamFollowController(CamFollowSettings, transform, Target);
-    }
-
+    void Awake() => followController = new CamFollowController(this);
 
     void LateUpdate() => followController.Tick();
-
-    #region CamViewModes
-    void ChangeCamView()
-    {
-        /* var vehicleMovement = target.GetComponent<Car>();
-         if (vehicleMovement)
-             if (vehicleMovement.isReversing)
-             {
-                 camView = CamView.Back;
-                 rotateSpeed = 1;
-             }
-             else
-             {
-                 camView = CamView.Front;
-                 rotateSpeed = initialRotateSpeed;
-             }*/
-    }
-    #endregion
 }

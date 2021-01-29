@@ -13,5 +13,6 @@ public struct VehicleParts
     public VehicleWheel[] VehicleWheels { get { return vehicleWheels; } set { vehicleWheels = value; } }
     public VehicleHeadLight[] VehicleHeadLights { get { return vehicleHeadLights; } set { vehicleHeadLights = value; } }
     public Rigidbody VehicleRb { get { return vehicleRb; } set { vehicleRb = value; } }
+    public Transform VehicleTrans { get { return vehicleRb.GetComponent<Transform>(); }}
     #endregion
 }

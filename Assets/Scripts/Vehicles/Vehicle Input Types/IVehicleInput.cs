@@ -3,4 +3,5 @@
     void ReadInput();
     float Turn { get; }
     float Acceleration { get; }
+    bool isBreaking { get; }
 }

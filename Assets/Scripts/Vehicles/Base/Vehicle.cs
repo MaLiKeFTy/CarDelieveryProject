@@ -10,6 +10,7 @@ public abstract class Vehicle : MonoBehaviour
     #region Parameters
     public VehicleParts VehicleParts => vehicleParts;
     public VehicleStats VehicleStats => vehicleStats;
+    public VehicleState VehicleState { get; protected set; }
     #endregion
 
 }

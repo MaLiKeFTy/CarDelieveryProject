@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Camera/Settings", fileName = "Camera Data")]
-public class CamFollowSettings : ScriptableObject
+[System.Serializable]
+public class CamFollowSettings
 {
     #region Serialized Fields
     [SerializeField] [Range(0.01f, 1f)] float soomthFollowValue = 0.15f;
@@ -25,35 +25,18 @@ public class CamFollowSettings : ScriptableObject
     #endregion
 
     #region Contructor
-    /// <summary>
-    /// Subcribing to the GameState Events
-    /// </summary>
+
     public CamFollowSettings()
     {
-        GameState.OnStart += Initialise;
-        GameState.OnEnd += Reset;
+        Initialise();
     }
     #endregion
 
-    /// <summary>
-    /// Initialising values when start values
-    /// </summary>
     void Initialise()
     {
         InitialSoomthFollowValue = soomthFollowValue;
         InitialDistance = distanceFromTarget;
         InitialTopViewValue = topViewValue;
         InitialRotateSpeed = rotateSpeed;
-    }
-
-    /// <summary>
-    /// Resetting to initial values when stop playing
-    /// </summary>
-    void Reset()
-    {
-        soomthFollowValue = InitialSoomthFollowValue;
-        distanceFromTarget = InitialDistance;
-        topViewValue = InitialTopViewValue;
-        rotateSpeed = InitialRotateSpeed;
     }
 }

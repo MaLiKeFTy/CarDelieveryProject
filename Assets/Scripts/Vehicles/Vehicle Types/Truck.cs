@@ -5,12 +5,14 @@
 
     void Awake()
     {
+        VehicleState = new VehicleState(transform, VehicleParts.VehicleWheels);
         truckInput = new VehiclePlayerInput();
         truckController = new VehicleController(this, truckInput);
     }
 
     void Update()
     {
+        VehicleState.DeployState();
         truckInput.ReadInput();
         truckController.RunMotor();
     }

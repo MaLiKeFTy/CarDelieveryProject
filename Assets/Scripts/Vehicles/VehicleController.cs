@@ -11,7 +11,7 @@ public class VehicleController
     float currentSteerAngle;
     event Action RunMotorCallback;
 
-   
+
     public VehicleController(Vehicle vehicle, IVehicleInput vehicleInput)
     {
         this.vehicleInput = vehicleInput;
@@ -33,6 +33,7 @@ public class VehicleController
         RunMotorCallback += UpdateWheels;
         RunMotorCallback += ApplyBreaking;
         RunMotorCallback += ApplyReversing;
+        RunMotorCallback += ApplyTrailEffect;
     }
 
     public void RunMotor()
@@ -42,13 +43,11 @@ public class VehicleController
 
     void ApplyAcceleration()
     {
+      //  Debug.Log(vehicleParts.VehicleRb.velocity.magnitude);
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Back)
-            {
                 wheel.wheelCollider.motorTorque = vehicleInput.Acceleration * vehicleStats.MotorForce;
-                Debug.Log(Vector3.Dot(vehicleParts.VehicleTrans.forward, vehicleParts.VehicleRb.velocity));
-            }
         }
     }
 
@@ -66,13 +65,14 @@ public class VehicleController
     {
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
-            wheel.wheelCollider.brakeTorque = vehicleInput.isBreaking ? vehicleStats.BreakForce : 0;
+            if (wheel.wheelPlacement == VehiclePartsPlacements.Back)
+                wheel.wheelCollider.brakeTorque = vehicleInput.isBreaking ? vehicleStats.BreakForce : 0;
         }
 
         foreach (var breakHeadLights in vehicleParts.VehicleHeadLights)
         {
             if (breakHeadLights.lightPlacement == VehiclePartsPlacements.Back && !breakHeadLights.IsReverseHeadLight)
-                breakHeadLights.gameObject.SetActive(vehicleInput.isBreaking);
+                breakHeadLights.gameObject.SetActive(vehicleInput.isBreaking || vehicleInput.Acceleration < 0);
         }
 
     }
@@ -82,9 +82,20 @@ public class VehicleController
         foreach (var reverseHeadLights in vehicleParts.VehicleHeadLights)
         {
             if (reverseHeadLights.lightPlacement == VehiclePartsPlacements.Back && reverseHeadLights.IsReverseHeadLight)
-                reverseHeadLights.gameObject.SetActive(vehicleState.IsReversing);
+                reverseHeadLights.gameObject.SetActive(vehicleState.IsReversing && vehicleInput.Acceleration < 0);
         }
     }
+
+
+    void ApplyTrailEffect()
+    {
+        foreach (var wheel in vehicleParts.VehicleWheels)
+        {
+            var wheelTrailEffect = wheel.WheelEffects.TypeTrail;
+            wheelTrailEffect.emitting = vehicleState.IsGrounded && (wheel.IsRolling || vehicleInput.isBreaking) ? true : false;
+        }
+    }
+
 
     void UpdateWheels()
     {

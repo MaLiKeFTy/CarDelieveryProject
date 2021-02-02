@@ -10,10 +10,11 @@
         truckController = new VehicleController(this, truckInput);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         VehicleState.DeployState();
-        truckInput.ReadInput();
         truckController.RunMotor();
     }
+
+    void Update() => truckInput.ReadInput();
 }

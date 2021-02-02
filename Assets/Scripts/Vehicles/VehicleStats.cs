@@ -11,7 +11,7 @@ public struct VehicleStats
     [SerializeField] Vector3 centreOfMass;
     #endregion
 
-    #region Parameters
+    #region Properties
     public float MotorForce => motorForce;
     public float MaxSpeed => maxSpeed;
     public float BreakForce => breakForce;

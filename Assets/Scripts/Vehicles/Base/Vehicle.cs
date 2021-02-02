@@ -7,7 +7,7 @@ public abstract class Vehicle : MonoBehaviour
     [SerializeField] VehicleStats vehicleStats;
     #endregion
 
-    #region Parameters
+    #region Properties
     public VehicleParts VehicleParts => vehicleParts;
     public VehicleStats VehicleStats => vehicleStats;
     public VehicleState VehicleState { get; protected set; }

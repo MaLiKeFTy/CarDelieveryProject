@@ -10,7 +10,7 @@ public class CamFollowSettings
     [SerializeField] float topViewValue = 20;
     #endregion
 
-    #region Parameters
+    #region Properties
     public float SoomthFollowValue { get { return soomthFollowValue; } set { soomthFollowValue = value; } }
     public float RotateSpeed { get { return rotateSpeed; } set { rotateSpeed = value; } }
     public float DistanceFromTarget { get { return distanceFromTarget; } set { distanceFromTarget = value; } }

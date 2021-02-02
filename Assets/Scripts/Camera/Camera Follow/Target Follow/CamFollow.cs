@@ -7,7 +7,7 @@ public class CamFollow : MonoBehaviour
     [SerializeField] Transform target; //target to Follow
     #endregion
 
-    #region Parameters
+    #region Properties
     public Transform Target => target;
     public CamFollowSettings CamFollowSettings => camFollowSettings;
     #endregion

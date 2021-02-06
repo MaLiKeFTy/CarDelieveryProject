@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UiJoystickController
 {
@@ -64,6 +65,11 @@ public class UiJoystickController
         {
             Vector2 target = JoystickAxesPeocessor.GetAxisTarget(joystickHandle, joystickBackgorund, axisType);
             joystickHandle.anchoredPosition = Vector2.Lerp(joystickHandle.anchoredPosition, target, 5 * Time.deltaTime);
+            var direction = Vector2.Dot(joystickBackgorund.anchoredPosition, joystickHandle.anchoredPosition) * -1;
+
+            var targetMagnitude = direction > 0 ? target.magnitude : -target.magnitude;
+
+            Debug.Log(targetMagnitude);
         }
     }
 

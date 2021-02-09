@@ -6586,7 +6586,7 @@ GameObject:
   - component: {fileID: 1966232120}
   - component: {fileID: 1966232119}
   m_Layer: 0
-  m_Name: Persistent Obj
+  m_Name: Ui Loader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8039,38 +8039,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1085420949, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Parameters.textureMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1085420949, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: fac1a251d48cd334da1a4bdb1998f96d, type: 2}
-    - target: {fileID: 1227709201, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Parameters.textureMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227709201, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: fac1a251d48cd334da1a4bdb1998f96d, type: 2}
-    - target: {fileID: 1654652611, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Parameters.textureMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1654652611, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: fac1a251d48cd334da1a4bdb1998f96d, type: 2}
-    - target: {fileID: 1860919610, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Parameters.textureMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1860919610, guid: 55e4f849fc621374b9f76a60a50a7a6f, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: fac1a251d48cd334da1a4bdb1998f96d, type: 2}
     - target: {fileID: 5084448545471506288, guid: 55e4f849fc621374b9f76a60a50a7a6f,
         type: 3}
       propertyPath: m_Name

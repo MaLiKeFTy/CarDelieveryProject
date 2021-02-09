@@ -8,12 +8,16 @@ public class UiJoystick : MonoBehaviour
     [SerializeField] RectTransform joystickBackgorund;
     [SerializeField] RectTransform joystickHandle;
     [SerializeField] CanvasGroup thisCanvasGroup;
+    
+    [Space]
 
     [Header("Stats")]
     [SerializeField] AxesTypes axisType = AxesTypes.Horizontal;
 
     [Range(0.0f, 1.0f)]
     [SerializeField] float joystickTransparency = 1.0f;
+
+    [SerializeField] bool isLeft;
     #endregion
 
     #region Properties
@@ -22,17 +26,23 @@ public class UiJoystick : MonoBehaviour
     public CanvasGroup ThisCanvasGroup => thisCanvasGroup;
     public AxesTypes AxisType => axisType;
     public float JoystickTransparency => joystickTransparency;
-    public UiJoystickAnimation JoystickAnimation { get; private set; }
     #endregion
 
-    UiJoystickController joystickController;
-    
+    FloatingUiController floatingJoystick;
+
+
+    UiJoystickController uiJoystickController;
 
     void Awake()
     {
-        JoystickAnimation = new UiJoystickAnimation(CorotineActivator.instance);
-        joystickController = new UiJoystickController(this);
+        floatingJoystick = new FloatingUiController(joystickBackgorund, thisCanvasGroup, joystickTransparency, isLeft);
+        uiJoystickController = new UiJoystickController(this);
     }
 
-    void Update() => joystickController.Tick();
+    void Update()
+    {
+        floatingJoystick.FloatUi();
+        uiJoystickController.Tick();
+    }
+        
 }

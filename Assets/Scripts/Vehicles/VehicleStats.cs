@@ -7,7 +7,7 @@ public struct VehicleStats
     [SerializeField] float motorForce;
     [SerializeField] float maxSpeed;
     [SerializeField] float breakForce;
-    [SerializeField] float maxSteeringAngle;
+    [SerializeField] float steeringMultiplier;
     [SerializeField] Vector3 centreOfMass;
     #endregion
 
@@ -15,7 +15,7 @@ public struct VehicleStats
     public float MotorForce => motorForce;
     public float MaxSpeed => maxSpeed;
     public float BreakForce => breakForce;
-    public float MaxSteeringAngle => maxSteeringAngle;
+    public float SteeringMultiplier => steeringMultiplier;
     public Vector3 CentreOfMass => centreOfMass;
     #endregion
 }

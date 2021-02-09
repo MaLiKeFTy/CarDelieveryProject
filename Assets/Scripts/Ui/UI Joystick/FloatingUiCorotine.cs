@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class UiJoystickAnimation
+public class FloatingUiCorotine
 {
     readonly CorotineActivator corotineActivator;
 
     IEnumerator moveToTouchCorotine;
     IEnumerator alphaToggleCorotine;
 
-    public UiJoystickAnimation(CorotineActivator corotineActivator)
+    public FloatingUiCorotine(CorotineActivator corotineActivator)
     {
         this.corotineActivator = corotineActivator;
     }
@@ -41,7 +41,7 @@ public class UiJoystickAnimation
         float ElapcedTime = 0;
         while (ElapcedTime < time)
         {
-            joystickRect.anchoredPosition = Vector2.Lerp(joystickRect.anchoredPosition, to, ElapcedTime / time);
+            joystickRect.position = Vector2.Lerp(joystickRect.position, to, ElapcedTime / time);
             ElapcedTime += Time.deltaTime;
             yield return null;
         }

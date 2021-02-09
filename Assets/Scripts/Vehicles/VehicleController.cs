@@ -7,13 +7,15 @@ public class VehicleController
     readonly VehicleParts vehicleParts;
     readonly VehicleStats vehicleStats;
     readonly VehicleState vehicleState;
+    readonly Vehicle vehicle;
 
-    float currentSteerAngle;
+
     event Action RunMotorCallback;
-
+    public static Func<float> SteeringCallBack;
 
     public VehicleController(Vehicle vehicle, IVehicleInput vehicleInput)
     {
+        this.vehicle = vehicle;
         this.vehicleInput = vehicleInput;
         vehicleParts = vehicle.VehicleParts;
         vehicleStats = vehicle.VehicleStats;
@@ -53,11 +55,12 @@ public class VehicleController
 
     void ApplySteering()
     {
-        currentSteerAngle = vehicleStats.MaxSteeringAngle * vehicleInput.Turn;
+        var steeringValue = (SteeringCallBack?.Invoke() ?? 0) * vehicleStats.SteeringMultiplier;
+
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Front)
-                wheel.wheelCollider.steerAngle = currentSteerAngle;
+                wheel.wheelCollider.steerAngle = steeringValue;
         }
     }
 

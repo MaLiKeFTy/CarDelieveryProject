@@ -1,31 +1,23 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FloatingUiController
 {
-    readonly FloatingUiCorotine floatingUiCorotine;
-    readonly RectTransform rectToMove;
-    readonly CanvasGroup alphaToggle;
-    readonly float transparencyAmount;
-    readonly bool isLeft;
-
-    TouchesManager touchesManager = new TouchesManager();
-
-    public bool IsLeft => isLeft;
-    public RectTransform RectToMove => rectToMove;
-
-    public static Action<string> TouchedEvent;
+    public bool IsLeft { get; } //if the touch position is in the left of the screen.
+    public RectTransform RectToMove { get; }
+    public float TransparencyAmount { get; }
+    public FloatingUiCorotine FloatingUiCorotine { get; } //this is responsible for the floating ui element animation.
+    public CanvasGroup AlphaToggle { get; }
 
     public FloatingUiController(FloatingUi floatingUi)
     {
-        floatingUiCorotine = new FloatingUiCorotine(floatingUi);
-        rectToMove = floatingUi.ThisRect;
-        alphaToggle = floatingUi.ThisCanvasGroup;
-        transparencyAmount = floatingUi.Transparency;
-        isLeft = floatingUi.IsLeft;
+        FloatingUiCorotine = new FloatingUiCorotine(floatingUi);
+        RectToMove = floatingUi.ThisRect;
+        AlphaToggle = floatingUi.ThisCanvasGroup;
+        TransparencyAmount = floatingUi.Transparency;
+        IsLeft = floatingUi.IsLeft;
     }
 
-    public void FloatUi()
+    public void MoveUiElementToTouch()
     {
         OnTouchDown();
         OnTouchUp();
@@ -35,36 +27,19 @@ public class FloatingUiController
     {
         FloatingUiProcessor.floatingGameObjs.Add(this);
 
-        foreach (var touch in touchesManager.GetTouches(TouchPhase.Began))
+        foreach (var touch in TouchesManager.GetTouches(TouchPhase.Began))
         {
-
-            FloatingUiController closestFloatingUi;
-
-            if (touch.position.x <= Screen.width / 2)
-                closestFloatingUi = FloatingUiProcessor.GetClosestFloatingUi(FloatingUiProcessor.FilterList(true), touch.position);
-            else
-                closestFloatingUi = FloatingUiProcessor.GetClosestFloatingUi(FloatingUiProcessor.FilterList(false), touch.position);
-
-
-            closestFloatingUi.floatingUiCorotine.ActivateAplhaToggle(closestFloatingUi.alphaToggle, 1, 1);
-            closestFloatingUi.floatingUiCorotine.ActivateMoveToTouch(closestFloatingUi.rectToMove, touch.position, 1);
-
+            var selectedFloatUi = FloatingUiProcessor.SelectedFloatUi(touch);
+            FloatingUiProcessor.ActivateFloatingUiCorotine(selectedFloatUi, touch, true);
         }
     }
 
-
     void OnTouchUp()
     {
-        foreach (var touch in touchesManager.GetTouches(TouchPhase.Ended))
+        foreach (var touch in TouchesManager.GetTouches(TouchPhase.Ended))
         {
-            FloatingUiController closestFloatingUi;
-
-            if (touch.position.x <= Screen.width / 2)
-                closestFloatingUi = FloatingUiProcessor.GetClosestFloatingUi(FloatingUiProcessor.FilterList(true), touch.position);
-            else
-                closestFloatingUi = FloatingUiProcessor.GetClosestFloatingUi(FloatingUiProcessor.FilterList(false), touch.position);
-
-            closestFloatingUi.floatingUiCorotine.ActivateAplhaToggle(closestFloatingUi.alphaToggle, transparencyAmount, 1);
+            var selectedFloatUi = FloatingUiProcessor.SelectedFloatUi(touch);
+            FloatingUiProcessor.ActivateFloatingUiCorotine(selectedFloatUi, touch, false);
         }
     }
 }

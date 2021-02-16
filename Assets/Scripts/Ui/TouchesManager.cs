@@ -2,13 +2,12 @@
 using System.Linq;
 using UnityEngine;
 
-public class TouchesManager
+public static class TouchesManager
 {
-    public TouchesManager()
-    {
-    }
-
-    public Touch[] GetTouches(TouchPhase phase)
+    /// <summary>
+    /// Gets all the current touches.
+    /// </summary>
+    public static Touch[] GetTouches(TouchPhase phase)
     {
         HashSet<Touch> touches = new HashSet<Touch>();
         if (Input.touchCount > 0)

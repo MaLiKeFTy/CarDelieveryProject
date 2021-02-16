@@ -7,12 +7,7 @@ public class FloatingUiCorotine
     IEnumerator moveToTouchCorotine;
     IEnumerator alphaToggleCorotine;
 
-
-    public FloatingUiCorotine(FloatingUi corotineActivator)
-    {
-        this.corotineActivator = corotineActivator;
-    }
-
+    public FloatingUiCorotine(FloatingUi corotineActivator) => this.corotineActivator = corotineActivator;
 
     public void ActivateAplhaToggle(CanvasGroup canvasGroup, float to, float time)
     {
@@ -23,7 +18,6 @@ public class FloatingUiCorotine
     {
         corotineActivator.ActivateCorotine(MoveToTouch(joystickRect, to, time), ref moveToTouchCorotine);
     }
-
 
     IEnumerator AplhaToggle(CanvasGroup canvasGroup, float to, float time)
     {
@@ -46,6 +40,4 @@ public class FloatingUiCorotine
             yield return null;
         }
     }
-
-
 }

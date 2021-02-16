@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class FloatingUiCorotine
 {
-    readonly CorotineActivator corotineActivator;
-
+    readonly FloatingUi corotineActivator;
     IEnumerator moveToTouchCorotine;
     IEnumerator alphaToggleCorotine;
 
-    public FloatingUiCorotine(CorotineActivator corotineActivator)
+
+    public FloatingUiCorotine(FloatingUi corotineActivator)
     {
         this.corotineActivator = corotineActivator;
     }

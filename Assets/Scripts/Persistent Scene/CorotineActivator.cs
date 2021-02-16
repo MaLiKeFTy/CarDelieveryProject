@@ -5,6 +5,7 @@ public class CorotineActivator : MonoBehaviour
 {
     public static CorotineActivator instance { get; private set; }
 
+
     void Awake()
     {
         instance = this;

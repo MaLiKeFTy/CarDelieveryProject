@@ -4,9 +4,9 @@ public class JoystickBothAxis : JoystickAxes
 {
     public override AxesTypes AxesTypes => AxesTypes.Both;
 
-    public override Vector2 AxisSelection(RectTransform joystickRect, RectTransform backgroundRect)
+    public override Vector2 AxisSelection(Vector2 goToTarget, UiJoystickController selectedJoystick)
     {
-        Vector2 targetOffset = Input.mousePosition - backgroundRect.position;
-        return Vector2.ClampMagnitude(targetOffset, backgroundRect.rect.width / 2);
+        goToTarget = goToTarget * selectedJoystick.Sensitivity;
+        return Vector2.ClampMagnitude(goToTarget, selectedJoystick.JoystickBackgorund.rect.width / 2);
     }
 }

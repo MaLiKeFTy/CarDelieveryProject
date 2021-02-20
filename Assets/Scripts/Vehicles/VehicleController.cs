@@ -12,6 +12,7 @@ public class VehicleController
 
     event Action RunMotorCallback;
     public static Func<float> SteeringCallBack;
+    public static Func<float> AccelerationCallBack;
 
     public VehicleController(Vehicle vehicle, IVehicleInput vehicleInput)
     {
@@ -45,18 +46,25 @@ public class VehicleController
 
     void ApplyAcceleration()
     {
-      //  Debug.Log(vehicleParts.VehicleRb.velocity.magnitude);
+        var accelerationValue = (AccelerationCallBack?.Invoke() ?? 0) * vehicleStats.MotorForce;
+       // Debug.Log(accelerationValue);
+        //  Debug.Log(vehicleParts.VehicleRb.velocity.magnitude);
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Back)
-                wheel.wheelCollider.motorTorque = vehicleInput.Acceleration * vehicleStats.MotorForce;
+            {
+                wheel.wheelCollider.motorTorque = accelerationValue;
+                Debug.Log(accelerationValue);
+            }
+               
+
         }
     }
 
     void ApplySteering()
     {
         var steeringValue = (SteeringCallBack?.Invoke() ?? 0) * vehicleStats.SteeringMultiplier;
-
+        
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Front)

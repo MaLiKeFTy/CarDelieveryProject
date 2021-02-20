@@ -7,27 +7,28 @@ public class FloatingUi : MonoBehaviour
 {
     //This class is responsible for moving the ui element to the finger touch position on the screen.
 
-    [Header("Refrences")]
-    [SerializeField] RectTransform thisRect;
-    [SerializeField] CanvasGroup thisCanvasGroup;
-
-    [Space]
-
     [Header("Stats")]
     [Range(0.0f, 1.0f)]
     [SerializeField] float transparency = 1.0f;
     [SerializeField] bool isLeft;
 
-    public RectTransform ThisRect => thisRect;
-    public CanvasGroup ThisCanvasGroup => thisCanvasGroup;
+    public RectTransform ThisRect { get; private set; }
+    public CanvasGroup ThisCanvasGroup { get; private set; }
     public float Transparency => transparency;
     public bool IsLeft => isLeft;
 
     FloatingUiController floatingUiController;
 
-    void Awake() => floatingUiController = new FloatingUiController(this);
+    void Awake() => Initialize();
 
     void Update() => floatingUiController.MoveUiElementToTouch();
+
+    void Initialize()
+    {
+        ThisRect = GetComponent<RectTransform>();
+        ThisCanvasGroup = GetComponent<CanvasGroup>();
+        floatingUiController = new FloatingUiController(this);
+    }
 
     /// <summary>
     /// This starts the ui element movement.

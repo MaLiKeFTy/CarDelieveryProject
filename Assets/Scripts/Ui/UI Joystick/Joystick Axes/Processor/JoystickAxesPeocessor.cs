@@ -25,12 +25,12 @@ public class JoystickAxesPeocessor
         }
     }
 
-    public static Vector2 GetAxisTarget(RectTransform joystickRect, RectTransform backgroundRect, AxesTypes axesTypes)
+    public static Vector2 GetAxisTarget(Vector2 goToTarget ,UiJoystickController selectedJoystick)
     {
         if (!isInitialised)
             Initialise();
 
-        var joystickAxis = joystickAxes[axesTypes];
-        return joystickAxis.AxisSelection(joystickRect, backgroundRect);
+        var joystickAxis = joystickAxes[selectedJoystick.AxisType];
+        return joystickAxis.AxisSelection(goToTarget , selectedJoystick);
     }
 }

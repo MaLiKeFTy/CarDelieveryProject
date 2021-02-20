@@ -4,10 +4,9 @@ public class JoystickHorizontalAxis : JoystickAxes
 {
     public override AxesTypes AxesTypes => AxesTypes.Horizontal;
 
-    public override Vector2 AxisSelection(RectTransform joystickRect, RectTransform backgroundRect)
+    public override Vector2 AxisSelection(Vector2 goToTarget, UiJoystickController selectedJoystick)
     {
-        Vector2 targetOffset = Input.mousePosition - backgroundRect.position;
-        Vector2 horizontalTargetOffset = new Vector2(targetOffset.x, 0);
-        return Vector2.ClampMagnitude(horizontalTargetOffset, backgroundRect.rect.width / 2);
+        Vector2 horizontalTargetOffset = new Vector2(goToTarget.x, 0) * selectedJoystick.Sensitivity;
+        return Vector2.ClampMagnitude(horizontalTargetOffset, selectedJoystick.JoystickBackgorund.rect.width / 2);
     }
 }

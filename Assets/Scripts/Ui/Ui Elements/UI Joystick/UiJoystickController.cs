@@ -14,11 +14,11 @@ public class UiJoystickController
     public AxesTypes AxisType { get; } = AxesTypes.Horizontal;
     public float Sensitivity { get; }
 
-    float fingerID = -99;
-    Vector2 startPosition;
-    UiJoystickController selectedJoystick;
-    HashSet<UiJoystickController> selectedJoysticks = new HashSet<UiJoystickController>();
-    bool backToCentre;
+
+    UiJoystick thisJoystick;
+
+    UiJoystick selectedJoystick;
+    HashSet<UiJoystick> selectedJoysticks = new HashSet<UiJoystick>();
     #endregion
 
     float currrentJoystickXValue;
@@ -27,7 +27,8 @@ public class UiJoystickController
     #region Constructor
     public UiJoystickController(UiJoystick uiJoystick)
     {
-        JoystickBackgorund = uiJoystick.JoystickBackgorund;
+        thisJoystick = uiJoystick;
+        JoystickBackgorund = uiJoystick.ThisRect;
         JoystickHandle = uiJoystick.JoystickHandle;
         AxisType = uiJoystick.AxisType;
         IsLeft = uiJoystick.IsLeft;
@@ -45,25 +46,25 @@ public class UiJoystickController
 
     void OnTouch()
     {
-        JoystickSelector.joysticks.Add(this);
+        UiElementTouchSelector<UiJoystick>.uiElements.Add(thisJoystick);
 
         foreach (var touch in TouchesManager.GetTouches(TouchPhase.Began))
         {
-            selectedJoystick = JoystickSelector.SelectedJoystick(touch);
-            selectedJoystick.startPosition = touch.position;
-            selectedJoystick.fingerID = touch.fingerId;
-            selectedJoystick.backToCentre = false;
+            selectedJoystick = UiElementTouchSelector<UiJoystick>.SelectedUiElement(touch);
+            selectedJoystick.StartPosition = touch.position;
+            selectedJoystick.FingerID = touch.fingerId;
+            selectedJoystick.BackToCentre = false;
             selectedJoysticks.Add(selectedJoystick);
 
         }
 
         CurrentSelectedJoysticks(TouchPhase.Moved, JoystickHandleMovement);
-        CurrentSelectedJoysticks(TouchPhase.Ended, (currentJoystick, touch) => currentJoystick.backToCentre = true);
+        CurrentSelectedJoysticks(TouchPhase.Ended, (currentJoystick, touch) => currentJoystick.BackToCentre = true);
 
         if (Input.touchCount == 0)
             selectedJoysticks.Clear();
 
-        if (backToCentre)
+        if (thisJoystick.BackToCentre)
             JoystickHandle.anchoredPosition = Vector2.Lerp(JoystickHandle.anchoredPosition, Vector2.zero, elacticityValue * Time.deltaTime);
 
         if(selectedJoystick != null)
@@ -76,19 +77,19 @@ public class UiJoystickController
     }
 
 
-    void CurrentSelectedJoysticks(TouchPhase touchPhase, Action<UiJoystickController, Touch> selectedJoystickEvnt)
+    void CurrentSelectedJoysticks(TouchPhase touchPhase, Action<UiJoystick, Touch> selectedJoystickEvnt)
     {
         foreach (var touch in TouchesManager.GetTouches(touchPhase))
             foreach (var selectedJoystick in selectedJoysticks)
-                if (selectedJoystick.fingerID == touch.fingerId)
+                if (selectedJoystick.FingerID == touch.fingerId)
                 {
                     selectedJoystickEvnt?.Invoke(selectedJoystick, touch);
                 }
     }
 
-    void JoystickHandleMovement(UiJoystickController selectedJoystick, Touch touch)
+    void JoystickHandleMovement(UiJoystick selectedJoystick, Touch touch)
     {
-        var offset = touch.position - selectedJoystick.startPosition;
+        var offset = touch.position - selectedJoystick.StartPosition;
         Vector2 target = JoystickAxesPeocessor.GetAxisTarget(offset, selectedJoystick);
         selectedJoystick.JoystickHandle.anchoredPosition = target;
       //  currrentJoystickValue = target.x;

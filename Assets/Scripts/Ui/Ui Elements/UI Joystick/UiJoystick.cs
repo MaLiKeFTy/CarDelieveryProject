@@ -1,19 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class UiJoystick : MonoBehaviour
+public class UiJoystick : UiElement
 {
     #region Serialised Fields
 
     [Header("Refrences")]
-    [SerializeField] RectTransform joystickBackgorund;
     [SerializeField] RectTransform joystickHandle;
 
     [Space]
 
     [Header("Stats")]
     [SerializeField] AxesTypes axisType = AxesTypes.Horizontal;
-    [SerializeField] bool isLeft;
     [SerializeField] float elacticityValue = 8f;
     [SerializeField] bool floatingJoystick;
     [Range(0.1f, 1.0f)]
@@ -22,17 +20,27 @@ public class UiJoystick : MonoBehaviour
     #endregion
 
     #region Properties
-    public RectTransform JoystickBackgorund => joystickBackgorund;
     public RectTransform JoystickHandle => joystickHandle;
     public AxesTypes AxisType => axisType;
-    public bool IsLeft => isLeft;
     public float ElacticityValue => elacticityValue;
     public float Sensitivity => sensitivity;
+    public float FingerID { get; set; } = -99;
+    public Vector2 StartPosition { get; set; }
+    public bool BackToCentre { get; set; }
+
+    public override RectTransform ThisRect => thisRect;
+    public override bool IsLeft => isLeft;
     #endregion
 
     UiJoystickController uiJoystickController;
 
-    void Awake() => uiJoystickController = new UiJoystickController(this);
+    protected override void Awake() => Initialize();
+
+    void Initialize()
+    {
+        base.Awake();
+        uiJoystickController = new UiJoystickController(this);
+    }
 
     void Update() => uiJoystickController.Tick();
 

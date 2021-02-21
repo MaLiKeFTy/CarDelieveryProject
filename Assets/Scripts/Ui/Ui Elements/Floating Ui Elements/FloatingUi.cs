@@ -2,30 +2,30 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
-[RequireComponent(typeof(RectTransform))]
-public class FloatingUi : MonoBehaviour
+public class FloatingUi : UiElement
 {
     //This class is responsible for moving the ui element to the finger touch position on the screen.
 
     [Header("Stats")]
     [Range(0.0f, 1.0f)]
     [SerializeField] float transparency = 1.0f;
-    [SerializeField] bool isLeft;
 
-    public RectTransform ThisRect { get; private set; }
     public CanvasGroup ThisCanvasGroup { get; private set; }
     public float Transparency => transparency;
-    public bool IsLeft => isLeft;
+
+    public override RectTransform ThisRect => thisRect;
+
+    public override bool IsLeft => isLeft;
 
     FloatingUiController floatingUiController;
 
-    void Awake() => Initialize();
+    protected override void Awake() => Initialize();
 
     void Update() => floatingUiController.MoveUiElementToTouch();
 
     void Initialize()
     {
-        ThisRect = GetComponent<RectTransform>();
+        base.Awake();
         ThisCanvasGroup = GetComponent<CanvasGroup>();
         floatingUiController = new FloatingUiController(this);
     }

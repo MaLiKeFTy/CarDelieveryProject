@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public static class TouchesManager
 {
@@ -14,7 +15,7 @@ public static class TouchesManager
         {
             foreach (var touch in Input.touches)
             {
-                if (touch.phase == phase)
+                if (touch.phase == phase && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                 {
                     touches.Add(touch);
                 }

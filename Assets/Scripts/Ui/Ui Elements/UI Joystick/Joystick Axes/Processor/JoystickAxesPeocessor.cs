@@ -25,7 +25,7 @@ public class JoystickAxesPeocessor
         }
     }
 
-    public static Vector2 GetAxisTarget(Vector2 goToTarget ,UiJoystickController selectedJoystick)
+    public static Vector2 GetAxisTarget(Vector2 goToTarget ,UiJoystick selectedJoystick)
     {
         if (!isInitialised)
             Initialise();

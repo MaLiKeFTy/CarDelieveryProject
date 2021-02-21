@@ -11,6 +11,7 @@ public static class TouchesManager
     public static Touch[] GetTouches(TouchPhase phase)
     {
         HashSet<Touch> touches = new HashSet<Touch>();
+
         if (Input.touchCount > 0)
         {
             foreach (var touch in Input.touches)
@@ -21,6 +22,7 @@ public static class TouchesManager
                 }
             }
         }
+
         return touches.ToArray();
     }
 }

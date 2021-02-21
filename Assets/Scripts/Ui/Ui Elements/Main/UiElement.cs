@@ -3,7 +3,7 @@
 [RequireComponent(typeof(RectTransform))]
 public abstract class UiElement : MonoBehaviour
 {
-    [SerializeField] protected bool isLeft;
+    [SerializeField] protected bool isLeft; //if the ui element is in the left of the screen.
 
     protected RectTransform thisRect;
 

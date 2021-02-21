@@ -5,19 +5,10 @@ using UnityEngine;
 public class UiJoystickController
 {
     #region Read Only fields
-    readonly float elacticityValue;
-
-
-    public bool IsLeft { get; }
-    public RectTransform JoystickBackgorund { get; }
-    public RectTransform JoystickHandle { get; }
-    public AxesTypes AxisType { get; } = AxesTypes.Horizontal;
-    public float Sensitivity { get; }
-
-
-    UiJoystick thisJoystick;
+    readonly UiJoystick thisJoystick;
 
     UiJoystick selectedJoystick;
+
     HashSet<UiJoystick> selectedJoysticks = new HashSet<UiJoystick>();
     #endregion
 
@@ -28,21 +19,12 @@ public class UiJoystickController
     public UiJoystickController(UiJoystick uiJoystick)
     {
         thisJoystick = uiJoystick;
-        JoystickBackgorund = uiJoystick.ThisRect;
-        JoystickHandle = uiJoystick.JoystickHandle;
-        AxisType = uiJoystick.AxisType;
-        IsLeft = uiJoystick.IsLeft;
-        elacticityValue = uiJoystick.ElacticityValue;
-        Sensitivity = uiJoystick.Sensitivity;
         VehicleController.SteeringCallBack += () => { return currrentJoystickXValue / 4; };
         VehicleController.AccelerationCallBack += () => { return currrentJoystickYValue / 200; };
     }
     #endregion
 
-    public void Tick()
-    {
-        OnTouch();
-    }
+    public void Tick() => OnTouch();
 
     void OnTouch()
     {
@@ -65,15 +47,14 @@ public class UiJoystickController
             selectedJoysticks.Clear();
 
         if (thisJoystick.BackToCentre)
-            JoystickHandle.anchoredPosition = Vector2.Lerp(JoystickHandle.anchoredPosition, Vector2.zero, elacticityValue * Time.deltaTime);
+            thisJoystick.JoystickHandle.anchoredPosition = Vector2.Lerp(thisJoystick.JoystickHandle.anchoredPosition, Vector2.zero, thisJoystick.ElacticityValue * Time.deltaTime);
 
         if(selectedJoystick != null)
         {
             currrentJoystickXValue = selectedJoystick.JoystickHandle.anchoredPosition.x;
             currrentJoystickYValue = selectedJoystick.JoystickHandle.anchoredPosition.y;
         }
-       
-       // Debug.Log(currrentJoystickYValue);
+
     }
 
 
@@ -92,7 +73,6 @@ public class UiJoystickController
         var offset = touch.position - selectedJoystick.StartPosition;
         Vector2 target = JoystickAxesPeocessor.GetAxisTarget(offset, selectedJoystick);
         selectedJoystick.JoystickHandle.anchoredPosition = target;
-      //  currrentJoystickValue = target.x;
     }
 
 

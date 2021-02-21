@@ -10,8 +10,11 @@ public class FloatingUi : UiElement
     [Range(0.0f, 1.0f)]
     [SerializeField] float transparency = 1.0f;
 
+
     public CanvasGroup ThisCanvasGroup { get; private set; }
     public float Transparency => transparency;
+    public FloatingUiCorotine FloatingUiCorotine { get; private set; } //this is responsible for the floating ui element animation.
+
 
     public override RectTransform ThisRect => thisRect;
 
@@ -19,16 +22,21 @@ public class FloatingUi : UiElement
 
     FloatingUiController floatingUiController;
 
-    protected override void Awake() => Initialize();
 
-    void Update() => floatingUiController.MoveUiElementToTouch();
+    protected override void Awake() => Initialize();
+    
 
     void Initialize()
     {
         base.Awake();
         ThisCanvasGroup = GetComponent<CanvasGroup>();
         floatingUiController = new FloatingUiController(this);
+        FloatingUiCorotine = new FloatingUiCorotine(this);
     }
+
+
+    void Update() => floatingUiController.MoveUiElementToTouch();
+
 
     /// <summary>
     /// This starts the ui element movement.

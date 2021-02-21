@@ -54,10 +54,7 @@ public class VehicleController
             if (wheel.wheelPlacement == VehiclePartsPlacements.Back)
             {
                 wheel.wheelCollider.motorTorque = accelerationValue;
-                Debug.Log(accelerationValue);
             }
-               
-
         }
     }
 

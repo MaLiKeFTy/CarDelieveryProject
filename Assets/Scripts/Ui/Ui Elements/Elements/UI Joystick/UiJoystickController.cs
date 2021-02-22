@@ -9,19 +9,12 @@ public class UiJoystickController
 
     UiJoystick selectedJoystick;
 
-    HashSet<UiJoystick> selectedJoysticks = new HashSet<UiJoystick>();
+    public static HashSet<UiJoystick> selectedJoysticks = new HashSet<UiJoystick>();
     #endregion
 
-    float currrentJoystickXValue;
-    float currrentJoystickYValue;
 
     #region Constructor
-    public UiJoystickController(UiJoystick uiJoystick)
-    {
-        thisJoystick = uiJoystick;
-        VehicleController.SteeringCallBack += () => { return currrentJoystickXValue / 4; };
-        VehicleController.AccelerationCallBack += () => { return currrentJoystickYValue / 200; };
-    }
+    public UiJoystickController(UiJoystick uiJoystick) => thisJoystick = uiJoystick;
     #endregion
 
     public void Tick() => OnTouch();
@@ -47,16 +40,11 @@ public class UiJoystickController
             selectedJoysticks.Clear();
 
         if (thisJoystick.BackToCentre)
-            thisJoystick.JoystickHandle.anchoredPosition = Vector2.Lerp(thisJoystick.JoystickHandle.anchoredPosition, Vector2.zero, thisJoystick.ElacticityValue * Time.deltaTime);
-
-        if(selectedJoystick != null)
         {
-            currrentJoystickXValue = selectedJoystick.JoystickHandle.anchoredPosition.x;
-            currrentJoystickYValue = selectedJoystick.JoystickHandle.anchoredPosition.y;
+            thisJoystick.JoystickHandle.anchoredPosition = Vector2.Lerp(thisJoystick.JoystickHandle.anchoredPosition, Vector2.zero, thisJoystick.ElacticityValue * Time.deltaTime);
+            thisJoystick.InputValue = Mathf.Lerp(thisJoystick.InputValue, 0, thisJoystick.ElacticityValue * Time.deltaTime);
         }
-
     }
-
 
     void CurrentSelectedJoysticks(TouchPhase touchPhase, Action<UiJoystick, Touch> selectedJoystickEvnt)
     {
@@ -74,6 +62,5 @@ public class UiJoystickController
         Vector2 target = JoystickAxesPeocessor.GetAxisTarget(offset, selectedJoystick);
         selectedJoystick.JoystickHandle.anchoredPosition = target;
     }
-
 
 }

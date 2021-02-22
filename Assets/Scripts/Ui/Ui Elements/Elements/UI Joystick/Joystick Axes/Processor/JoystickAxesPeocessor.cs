@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using System.Linq;
-using System;
 
 public class JoystickAxesPeocessor
 {
@@ -25,12 +25,12 @@ public class JoystickAxesPeocessor
         }
     }
 
-    public static Vector2 GetAxisTarget(Vector2 goToTarget ,UiJoystick selectedJoystick)
+    public static Vector2 GetAxisTarget(Vector2 goToTarget, UiJoystick selectedJoystick)
     {
         if (!isInitialised)
             Initialise();
 
         var joystickAxis = joystickAxes[selectedJoystick.AxisType];
-        return joystickAxis.AxisSelection(goToTarget , selectedJoystick);
+        return joystickAxis.AxisSelection(goToTarget, selectedJoystick);
     }
 }

@@ -16,7 +16,6 @@ public class UiJoystick : UiElement
     [SerializeField] bool floatingJoystick;
     [Range(0.1f, 1.0f)]
     [SerializeField] float sensitivity = 1;
-
     #endregion
 
     #region Properties
@@ -27,6 +26,7 @@ public class UiJoystick : UiElement
     public float FingerID { get; set; } = -99;
     public Vector2 StartPosition { get; set; }
     public bool BackToCentre { get; set; }
+    public float InputValue { get; set; }
 
     public override RectTransform ThisRect => thisRect;
     public override bool IsLeft => isLeft;

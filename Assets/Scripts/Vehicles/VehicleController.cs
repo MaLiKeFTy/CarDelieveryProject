@@ -11,8 +11,6 @@ public class VehicleController
 
 
     event Action RunMotorCallback;
-    public static Func<float> SteeringCallBack;
-    public static Func<float> AccelerationCallBack;
 
     public VehicleController(Vehicle vehicle, IVehicleInput vehicleInput)
     {
@@ -46,9 +44,14 @@ public class VehicleController
 
     void ApplyAcceleration()
     {
-        var accelerationValue = (AccelerationCallBack?.Invoke() ?? 0) * vehicleStats.MotorForce;
-       // Debug.Log(accelerationValue);
-        //  Debug.Log(vehicleParts.VehicleRb.velocity.magnitude);
+        var inputValue = 0f;
+        foreach (var selectedJoystick in UiJoystickController.selectedJoysticks)
+        {
+            if (selectedJoystick.AxisType == AxesTypes.Vertical)
+                inputValue = selectedJoystick.InputValue;
+
+        }
+        var accelerationValue = inputValue * vehicleStats.MotorForce;
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Back)
@@ -60,8 +63,15 @@ public class VehicleController
 
     void ApplySteering()
     {
-        var steeringValue = (SteeringCallBack?.Invoke() ?? 0) * vehicleStats.SteeringMultiplier;
-        
+        var inputValue = 0f;
+        foreach (var selectedJoystick in UiJoystickController.selectedJoysticks)
+        {
+            if (selectedJoystick.AxisType == AxesTypes.Horizontal)
+                inputValue = selectedJoystick.InputValue;
+
+        }
+        var steeringValue = inputValue * vehicleStats.SteeringValue;
+
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Front)
@@ -71,16 +81,23 @@ public class VehicleController
 
     void ApplyBreaking()
     {
+        var isBreaking = false;
+        foreach (var selectedToggleOperator in VehicleToggleUiOperator.selectedToggleOperators)
+        {
+            if (selectedToggleOperator.Operation == VehicleToggleOperations.BreakVehicle)
+                isBreaking = selectedToggleOperator.OperationToggle;
+        }
+
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Back)
-                wheel.wheelCollider.brakeTorque = vehicleInput.isBreaking ? vehicleStats.BreakForce : 0;
+                wheel.wheelCollider.brakeTorque = isBreaking ? vehicleStats.BreakForce : 0;
         }
 
         foreach (var breakHeadLights in vehicleParts.VehicleHeadLights)
         {
             if (breakHeadLights.lightPlacement == VehiclePartsPlacements.Back && !breakHeadLights.IsReverseHeadLight)
-                breakHeadLights.gameObject.SetActive(vehicleInput.isBreaking || vehicleInput.Acceleration < 0);
+                breakHeadLights.gameObject.SetActive(isBreaking || vehicleInput.Acceleration < 0);
         }
 
     }

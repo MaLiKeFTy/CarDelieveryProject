@@ -24,19 +24,24 @@ public class VehicleToggleUiOperator : UiElement
 
     void Update()
     {
-
-        UiElementTouchSelector<VehicleToggleUiOperator>.uiElements.Add(this);
-
+        UiElementTouchSelector.uiElements.Add(this);
         foreach (var touch in TouchesManager.GetTouches(TouchPhase.Began))
         {
-            selectedToggleOperator = UiElementTouchSelector<VehicleToggleUiOperator>.SelectedUiElement(touch);
-            selectedToggleOperators.Add(selectedToggleOperator);
-            selectedToggleOperator.OperationToggle = true;
+            var selectedUiElement = UiElementTouchSelector.SelectedUiElement(touch);
+
+            if (selectedUiElement is VehicleToggleUiOperator)
+            {
+                selectedToggleOperator = (VehicleToggleUiOperator)selectedUiElement;
+                selectedToggleOperators.Add(selectedToggleOperator);
+                selectedToggleOperator.OperationToggle = true;
+            }
+
         }
 
         foreach (var touch in TouchesManager.GetTouches(TouchPhase.Ended))
         {
-            selectedToggleOperator.OperationToggle = false;
+            if (selectedToggleOperator)
+                selectedToggleOperator.OperationToggle = false;
         }
 
     }

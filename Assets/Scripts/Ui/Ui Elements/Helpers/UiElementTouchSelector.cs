@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class UiElementTouchSelector<T> where T : UiElement
+public static class UiElementTouchSelector
 {
-    public static HashSet<T> uiElements = new HashSet<T>();
+    public static HashSet<UiElement> uiElements = new HashSet<UiElement>();
 
     /// <summary>
     /// Gets the closest ui element to the touch position.
     /// </summary>
-    static T GetClosestUiElement(HashSet<T> filteredUiElements, Vector2 touchPos)
+    static UiElement GetClosestUiElement(HashSet<UiElement> filteredUiElements, Vector2 touchPos)
     {
-        T tMin = default(T);
+        UiElement tMin = null;
         float minDist = Mathf.Infinity;
-        Vector3 currentPos = touchPos;
+        Vector2 currentPos = touchPos;
+
 
         foreach (var uiElement in filteredUiElements)
         {
@@ -21,24 +22,24 @@ public static class UiElementTouchSelector<T> where T : UiElement
             RectTransform thisRect = (RectTransform)(rectTransformProp.GetValue(uiElement, null));
 
             float dist = Vector3.Distance(thisRect.position, currentPos);
-
             if (dist < minDist)
             {
                 tMin = uiElement;
                 minDist = dist;
             }
+           
         }
-
+       
         return tMin;
     }
 
     /// <summary>
     /// Only gets the ui elements that is on the left or of the right.
     /// </summary>
-    static HashSet<T> FilterUiElements(bool isLeft)
+    static HashSet<UiElement> FilterUiElements(bool isLeft)
     {
-        HashSet<T> tempUiElement = new HashSet<T>();
-
+        HashSet<UiElement> tempUiElement = new HashSet<UiElement>();
+        
         foreach (var uiElement in uiElements)
         {
             var isLeftProp = uiElement.GetType().GetProperty("IsLeft");
@@ -48,19 +49,24 @@ public static class UiElementTouchSelector<T> where T : UiElement
                 tempUiElement.Add(uiElement);
         }
 
+        /*foreach (var item in tempUiElement)
+        {
+            Debug.Log(item);
+        }*/
         return tempUiElement;
     }
 
     /// <summary>
     /// Gets the selected ui element by the touch.
     /// </summary>
-    public static T SelectedUiElement(Touch touch)
+    public static UiElement SelectedUiElement(Touch touch)
     {
-        T selectedUielement;
-
+        UiElement selectedUielement;
+        
         var touchIsLeftOfscreen = touch.position.x <= Screen.width / 2 ? true : false;
         selectedUielement = GetClosestUiElement(FilterUiElements(touchIsLeftOfscreen), touch.position);
-
+        
+        
         return selectedUielement;
     }
 }

@@ -14,7 +14,7 @@ public class FloatingUiController
 
     void OnTouchDown()
     {
-        UiElementTouchSelector<FloatingUi>.uiElements.Add(thisFloatingUi);
+        UiElementTouchSelector.uiElements.Add(thisFloatingUi);
 
         foreach (var touch in TouchesManager.GetTouches(TouchPhase.Began))
         {
@@ -35,8 +35,8 @@ public class FloatingUiController
     /// </summary>
     void MoveSelectedFloatingUi(Touch touch, bool goToTouch)
     {
-        FloatingUi selectedFloatUi = UiElementTouchSelector<FloatingUi>.SelectedUiElement(touch);
-        ActivateFloatingUiCorotine(selectedFloatUi, touch, goToTouch);
+        var selectedFloatUi = UiElementTouchSelector.SelectedUiElement(touch);
+       // ActivateFloatingUiCorotine(selectedFloatUi, touch, goToTouch);
     }
 
     /// <summary>

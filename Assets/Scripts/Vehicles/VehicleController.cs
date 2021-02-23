@@ -104,10 +104,17 @@ public class VehicleController
 
     void ApplyReversing()
     {
+        var inputValue = 0f;
+        foreach (var selectedJoystick in UiJoystickController.selectedJoysticks)
+        {
+            if (selectedJoystick.AxisType == AxesTypes.Vertical)
+                inputValue = selectedJoystick.InputValue;
+
+        }
         foreach (var reverseHeadLights in vehicleParts.VehicleHeadLights)
         {
             if (reverseHeadLights.lightPlacement == VehiclePartsPlacements.Back && reverseHeadLights.IsReverseHeadLight)
-                reverseHeadLights.gameObject.SetActive(vehicleState.IsReversing && vehicleInput.Acceleration < 0);
+                reverseHeadLights.gameObject.SetActive(vehicleState.IsReversing && inputValue < 0);
         }
     }
 

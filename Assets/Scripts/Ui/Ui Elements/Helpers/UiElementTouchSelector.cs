@@ -59,12 +59,12 @@ public static class UiElementTouchSelector
     /// <summary>
     /// Gets the selected ui element by the touch.
     /// </summary>
-    public static UiElement SelectedUiElement(Touch touch)
+    public static UiElement SelectedUiElement(Vector2 touchPos)
     {
         UiElement selectedUielement;
         
-        var touchIsLeftOfscreen = touch.position.x <= Screen.width / 2 ? true : false;
-        selectedUielement = GetClosestUiElement(FilterUiElements(touchIsLeftOfscreen), touch.position);
+        var touchIsLeftOfscreen = touchPos.x <= Screen.width / 2 ? true : false;
+        selectedUielement = GetClosestUiElement(FilterUiElements(touchIsLeftOfscreen), touchPos);
         
         
         return selectedUielement;

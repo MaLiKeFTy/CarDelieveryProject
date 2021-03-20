@@ -35,7 +35,7 @@ public class FloatingUiController
     /// </summary>
     void MoveSelectedFloatingUi(Touch touch, bool goToTouch)
     {
-        var selectedFloatUi = UiElementTouchSelector.SelectedUiElement(touch);
+        var selectedFloatUi = UiElementTouchSelector.SelectedUiElement(touch.position);
        // ActivateFloatingUiCorotine(selectedFloatUi, touch, goToTouch);
     }
 

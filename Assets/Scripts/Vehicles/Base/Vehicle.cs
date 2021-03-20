@@ -11,6 +11,7 @@ public abstract class Vehicle : MonoBehaviour
     public VehicleParts VehicleParts => vehicleParts;
     public VehicleStats VehicleStats => vehicleStats;
     public VehicleState VehicleState { get; protected set; }
+   // public abstract int test;
     #endregion
 
 }

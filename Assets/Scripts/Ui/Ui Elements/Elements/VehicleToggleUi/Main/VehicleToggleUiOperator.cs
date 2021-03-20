@@ -17,17 +17,24 @@ public class VehicleToggleUiOperator : UiElement
 
     VehicleToggleUiOperator selectedToggleOperator;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    protected override void Awake() => base.Awake();
 
     void Update()
     {
         UiElementTouchSelector.uiElements.Add(this);
+#if UNITY_EDITOR
+        OnMouse();
+#else
+        OnTouch();
+#endif
+
+    }
+
+    void OnTouch()
+    {
         foreach (var touch in TouchesManager.GetTouches(TouchPhase.Began))
         {
-            var selectedUiElement = UiElementTouchSelector.SelectedUiElement(touch);
+            var selectedUiElement = UiElementTouchSelector.SelectedUiElement(touch.position);
 
             if (selectedUiElement is VehicleToggleUiOperator)
             {
@@ -43,6 +50,26 @@ public class VehicleToggleUiOperator : UiElement
             if (selectedToggleOperator)
                 selectedToggleOperator.OperationToggle = false;
         }
+    }
 
+    void OnMouse()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            var selectedUiElement = UiElementTouchSelector.SelectedUiElement(Input.mousePosition);
+
+            if (selectedUiElement is VehicleToggleUiOperator)
+            {
+                selectedToggleOperator = (VehicleToggleUiOperator)selectedUiElement;
+                selectedToggleOperators.Add(selectedToggleOperator);
+                selectedToggleOperator.OperationToggle = true;
+            }
+        }
+
+        if (!selectedToggleOperator)
+            return;
+
+        if (Input.GetMouseButtonUp(0))
+            selectedToggleOperator.OperationToggle = false;
     }
 }

@@ -6,11 +6,9 @@ public class VehicleToggleUiOperator : UiElement
     [SerializeField] VehicleToggleOperations operation;
 
     public bool OperationToggle { get; private set; }
-
     public VehicleToggleOperations Operation => operation;
 
     public override RectTransform ThisRect => thisRect;
-
     public override bool IsLeft => isLeft;
 
     public static HashSet<VehicleToggleUiOperator> selectedToggleOperators = new HashSet<VehicleToggleUiOperator>();
@@ -27,24 +25,34 @@ public class VehicleToggleUiOperator : UiElement
 #else
         OnTouch();
 #endif
-
     }
 
     void OnTouch()
+    {
+        OnTouchDown();
+        OnTouchUp();
+    }
+
+
+    void OnTouchDown()
     {
         foreach (var touch in TouchesManager.GetTouches(TouchPhase.Began))
         {
             var selectedUiElement = UiElementTouchSelector.SelectedUiElement(touch.position);
 
-            if (selectedUiElement is VehicleToggleUiOperator)
-            {
-                selectedToggleOperator = (VehicleToggleUiOperator)selectedUiElement;
-                selectedToggleOperators.Add(selectedToggleOperator);
-                selectedToggleOperator.OperationToggle = true;
-            }
+            if (!(selectedUiElement is VehicleToggleUiOperator))
+                return;
+
+            selectedToggleOperator = (VehicleToggleUiOperator)selectedUiElement;
+            selectedToggleOperators.Add(selectedToggleOperator);
+            selectedToggleOperator.OperationToggle = true;
 
         }
+    }
 
+
+    void OnTouchUp()
+    {
         foreach (var touch in TouchesManager.GetTouches(TouchPhase.Ended))
         {
             if (selectedToggleOperator)
@@ -52,24 +60,33 @@ public class VehicleToggleUiOperator : UiElement
         }
     }
 
+
     void OnMouse()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            var selectedUiElement = UiElementTouchSelector.SelectedUiElement(Input.mousePosition);
+        OnMouseBtnDown();
+        OnMouseBtnUp();
+    }
 
-            if (selectedUiElement is VehicleToggleUiOperator)
-            {
-                selectedToggleOperator = (VehicleToggleUiOperator)selectedUiElement;
-                selectedToggleOperators.Add(selectedToggleOperator);
-                selectedToggleOperator.OperationToggle = true;
-            }
-        }
 
-        if (!selectedToggleOperator)
+    void OnMouseBtnDown()
+    {
+        if (!Input.GetMouseButtonDown(0))
             return;
 
-        if (Input.GetMouseButtonUp(0))
-            selectedToggleOperator.OperationToggle = false;
+        var selectedUiElement = UiElementTouchSelector.SelectedUiElement(Input.mousePosition);
+        if (!(selectedUiElement is VehicleToggleUiOperator))
+            return;
+        selectedToggleOperator = (VehicleToggleUiOperator)selectedUiElement;
+        selectedToggleOperators.Add(selectedToggleOperator);
+        selectedToggleOperator.OperationToggle = true;
     }
+
+    void OnMouseBtnUp()
+    {
+        if (!selectedToggleOperator || !Input.GetMouseButtonUp(0))
+            return;
+        selectedToggleOperator.OperationToggle = false;
+    }
+
+   
 }

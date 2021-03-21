@@ -8039,21 +8039,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3868163361605675136, guid: 55e4f849fc621374b9f76a60a50a7a6f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3868163361632733947, guid: 55e4f849fc621374b9f76a60a50a7a6f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3868163361632733949, guid: 55e4f849fc621374b9f76a60a50a7a6f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5084448545471506288, guid: 55e4f849fc621374b9f76a60a50a7a6f,
         type: 3}
       propertyPath: m_Name
@@ -8062,12 +8047,12 @@ PrefabInstance:
     - target: {fileID: 5084448545471506290, guid: 55e4f849fc621374b9f76a60a50a7a6f,
         type: 3}
       propertyPath: vehicleStats.motorForce
-      value: 10
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5084448545471506290, guid: 55e4f849fc621374b9f76a60a50a7a6f,
         type: 3}
       propertyPath: vehicleStats.steeringValue
-      value: 0.2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8130350669854037347, guid: 55e4f849fc621374b9f76a60a50a7a6f,
         type: 3}

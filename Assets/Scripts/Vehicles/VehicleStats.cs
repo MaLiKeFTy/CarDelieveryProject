@@ -7,7 +7,6 @@ public class VehicleStats
     [SerializeField] float motorForce;
     [SerializeField] float maxSpeed;
     [SerializeField] float breakForce;
-    [Range(0.01f, 1.0f)]
     [SerializeField] float steeringValue = 0.5f;
     [SerializeField] Vector3 centreOfMass;
     #endregion

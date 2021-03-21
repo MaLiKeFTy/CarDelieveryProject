@@ -7,7 +7,8 @@ public class JoystickHorizontalAxis : JoystickAxes
     public override Vector2 AxisSelection(Vector2 goToTarget, UiJoystick selectedJoystick)
     {
         Vector2 horizontalTargetOffset = new Vector2(goToTarget.x, 0) * selectedJoystick.Sensitivity;
-        selectedJoystick.InputValue = horizontalTargetOffset.x;
-        return Vector2.ClampMagnitude(horizontalTargetOffset, selectedJoystick.ThisRect.rect.width / 2);
+        var clampedDistance = Vector2.ClampMagnitude(horizontalTargetOffset, selectedJoystick.ThisRect.rect.width / 2);
+        selectedJoystick.InputValue = horizontalTargetOffset.x / (selectedJoystick.ThisRect.rect.width / 2);
+        return clampedDistance;
     }
 }

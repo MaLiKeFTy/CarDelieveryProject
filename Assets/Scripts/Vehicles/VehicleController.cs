@@ -45,12 +45,16 @@ public class VehicleController
     void ApplyAcceleration()
     {
         var inputValue = 0f;
+
+#if UNITY_EDITOR
+        inputValue = vehicleInput.Acceleration;
+#endif
         foreach (var selectedJoystick in UiJoystickController.selectedJoysticks)
         {
             if (selectedJoystick.AxisType == AxesTypes.Vertical)
                 inputValue = selectedJoystick.InputValue;
-
         }
+
         var accelerationValue = inputValue * vehicleStats.MotorForce;
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
@@ -64,14 +68,19 @@ public class VehicleController
     void ApplySteering()
     {
         var inputValue = 0f;
+
+#if UNITY_EDITOR
+        inputValue = vehicleInput.Turn;
+#endif
+
         foreach (var selectedJoystick in UiJoystickController.selectedJoysticks)
         {
             if (selectedJoystick.AxisType == AxesTypes.Horizontal)
                 inputValue = selectedJoystick.InputValue;
 
         }
-        var steeringValue = inputValue * vehicleStats.SteeringValue;
 
+        var steeringValue = inputValue * vehicleStats.SteeringValue;
         foreach (var wheel in vehicleParts.VehicleWheels)
         {
             if (wheel.wheelPlacement == VehiclePartsPlacements.Front)
@@ -82,6 +91,9 @@ public class VehicleController
     void ApplyBreaking()
     {
         var isBreaking = false;
+#if UNITY_EDITOR
+        isBreaking = vehicleInput.isBreaking;
+#endif
         foreach (var selectedToggleOperator in VehicleToggleUiOperator.selectedToggleOperators)
         {
             if (selectedToggleOperator.Operation == VehicleToggleOperations.BreakVehicle)
@@ -105,12 +117,17 @@ public class VehicleController
     void ApplyReversing()
     {
         var inputValue = 0f;
+
+#if UNITY_EDITOR
+        inputValue = vehicleInput.Acceleration;
+#endif
         foreach (var selectedJoystick in UiJoystickController.selectedJoysticks)
         {
             if (selectedJoystick.AxisType == AxesTypes.Vertical)
                 inputValue = selectedJoystick.InputValue;
 
         }
+
         foreach (var reverseHeadLights in vehicleParts.VehicleHeadLights)
         {
             if (reverseHeadLights.lightPlacement == VehiclePartsPlacements.Back && reverseHeadLights.IsReverseHeadLight)
